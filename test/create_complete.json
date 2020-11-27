@@ -1,0 +1,93 @@
+{
+    "StackEvents": [
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "eb421ec0-2f45-11eb-80f9-06813faea71e",
+            "StackName": "lab",
+            "LogicalResourceId": "lab",
+            "PhysicalResourceId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2020-11-25T17:44:51.108000+00:00",
+            "ResourceStatus": "CREATE_COMPLETE"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroup-CREATE_COMPLETE-2020-11-25T17:44:50.244Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroup",
+            "PhysicalResourceId": "QLReadOnly",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:50.244000+00:00",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "ResourceProperties": "{\"GroupName\":\"QLReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroupDemo2-CREATE_COMPLETE-2020-11-25T17:44:49.944Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroupDemo2",
+            "PhysicalResourceId": "QLMXReadOnly",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:49.944000+00:00",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "ResourceProperties": "{\"GroupName\":\"QLMXReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroupDemo2-CREATE_IN_PROGRESS-2020-11-25T17:44:14.401Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroupDemo2",
+            "PhysicalResourceId": "QLMXReadOnly",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:14.401000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceStatusReason": "Resource creation Initiated",
+            "ResourceProperties": "{\"GroupName\":\"QLMXReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroup-CREATE_IN_PROGRESS-2020-11-25T17:44:14.249Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroup",
+            "PhysicalResourceId": "QLReadOnly",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:14.249000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceStatusReason": "Resource creation Initiated",
+            "ResourceProperties": "{\"GroupName\":\"QLReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroup-CREATE_IN_PROGRESS-2020-11-25T17:44:13.203Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroup",
+            "PhysicalResourceId": "",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:13.203000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceProperties": "{\"GroupName\":\"QLReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "ReadOnlyGroupDemo2-CREATE_IN_PROGRESS-2020-11-25T17:44:13.018Z",
+            "StackName": "lab",
+            "LogicalResourceId": "ReadOnlyGroupDemo2",
+            "PhysicalResourceId": "",
+            "ResourceType": "AWS::IAM::Group",
+            "Timestamp": "2020-11-25T17:44:13.018000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceProperties": "{\"GroupName\":\"QLMXReadOnly\",\"ManagedPolicyArns\":[\"arn:aws:iam::aws:policy/ReadOnlyAccess\"]}"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "EventId": "d2adda70-2f45-11eb-8307-06f86a94f568",
+            "StackName": "lab",
+            "LogicalResourceId": "lab",
+            "PhysicalResourceId": "arn:aws:cloudformation:eu-central-1:795048271754:stack/lab/d2ac53d0-2f45-11eb-8307-06f86a94f568",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2020-11-25T17:44:09.909000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceStatusReason": "User Initiated"
+        }
+    ]
+}

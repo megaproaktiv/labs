@@ -1,0 +1,7 @@
+.vscode
+dist
+log/cfd.log
+credentials.txt
+labkey.pem
+*.log
+password.txt

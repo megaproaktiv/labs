@@ -1,0 +1,34 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  FILE: main/main.go
+
+tasks:
+  build:
+    cmds:
+      -  go build -o dist/labs main/main.go
+    silent: true
+
+  build-all-os:
+    desc: Build for all os
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build  -o dist/linux/labs  {{.FILE}}
+      - GOOS=windows GOARCH=amd64 go build -o dist/windows/labs.exe  {{.FILE}} 
+      - GOOS=darwin GOARCH=amd64 go build -o dist/mac/labs  {{.FILE}} 
+
+  test:
+    deps: [build]
+    desc: go test
+    cmds:
+      - go test -v
+
+  testrun:
+    desc: run testcycle
+    cmds:
+      - go run main/main.go destroy -l 0
+      - go run main/main.go deploy -l 0
+      - sleep 10
+      - go run main/main.go destroy -l 0
+    ignore_error: true
