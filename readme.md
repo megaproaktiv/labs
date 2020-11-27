@@ -13,6 +13,9 @@ Create AWS CloudFormation lab environment with convention based configuration.
     - attached to the user
 1) Info log file `log/cfd.log` is written
 
+## Overview
+
+![Architecture](img/labdeploy.png)
 
 ## AMI search results
 
