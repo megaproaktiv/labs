@@ -10,7 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v0.29.0
 	github.com/aws/aws-sdk-go-v2/service/iam v0.29.0
 	github.com/aws/aws-sdk-go-v2/service/sts v0.29.0
-	github.com/awslabs/goformation/v4 v4.15.6 // indirect
+	github.com/awslabs/goformation/v4 v4.15.6
 	github.com/buger/goterm v0.0.0-20200322175922-2f3e71b85129
 	github.com/megaproaktiv/cfdl v0.1.4
 	github.com/stretchr/testify v1.6.1

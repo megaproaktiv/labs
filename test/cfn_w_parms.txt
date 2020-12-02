@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: 'Test Cloudformation with parameters'
+Parameters:
+  AWSAccessKey:
+    Description: Access key 
+    Type: String
+  AWSSecretAccessKey:
+    Description: Secret access key 
+    Type: String
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Keyname  instances
+  LabName:
+    Type: String
+    Default: demo
+  AWSAmiId:
+    Description: The name of the Windows AMI to find based on search
+    Type: String
+    Description: 'x86_64,Windows_Server-2012-R2_RTM-English-64Bit-Base'
+    Default: 'ami-06032c95ea1ffa069'
+
+Resources:
+    
+  ReadOnlyGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      GroupName: QLReadOnly
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/ReadOnlyAccess'
