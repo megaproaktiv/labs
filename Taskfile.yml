@@ -32,3 +32,9 @@ tasks:
       - sleep 10
       - go run main/main.go destroy -l 0
     ignore_error: true
+
+  install-local:
+    desc: Install in "user/local/bin"
+    deps: [build]
+    cmds: 
+      - sudo cp dist/mac/labs /usr/local/bin/labs
