@@ -43,10 +43,18 @@ func CreateKeyIfNotExist(client Ec2Interface) {
 	if len(response.KeyPairs) == 0 {
 		createKey = true
 		log.Println("Key not found in account, thus creating a new one")
-		}else{
-			log.Println("Key already not found in account, thus not creating a new one")
+	}else{
+		createKey = true
+		for _, keypair := range response.KeyPairs {
+			if *keypair.KeyName == labKey {
+				createKey = false
+			}
+		}
 	}
-	// fmt.Println(response.KeyPairs)
+		
+	if !createKey {
+		log.Println("Key <",labKey,"> already found in account, thus not creating a new one")
+	}
 
 	if createKey {
 		log.Println("Writing ssh key local: ", sshKeyFileName())
@@ -55,28 +63,29 @@ func CreateKeyIfNotExist(client Ec2Interface) {
 		})
 		if err != nil {
 			panic(err)
+		}else {
+			key := fmt.Sprintf("%s",*CreateKeyPairOutput.KeyMaterial)
+			
+			f, err := os.Create(sshKeyFileName())
+			if err != nil {
+				log.Println("File creation error: ",err)
+			}
+			err = os.Chmod(sshKeyFileName(), 0600)
+			if err != nil {
+				log.Println("File change permission error: ",err)
+			}
+			
+			_, err = f.WriteString(key)
+			if err != nil {
+				log.Println("Pem file write error: ",err)
+				f.Close()
+			}
+			err = f.Close()
+			if err != nil {
+				log.Println("Pem file close error: ",err)			
+			}		
 		}
-		key := fmt.Sprintf("%s",*CreateKeyPairOutput.KeyMaterial)
-
-		f, err := os.Create(sshKeyFileName())
-		if err != nil {
-			log.Println("File creation error: ",err)
-		}
-		err = os.Chmod(sshKeyFileName(), 0600)
-		if err != nil {
-			log.Println("File change permission error: ",err)
-		}
-
-		_, err = f.WriteString(key)
-		if err != nil {
-			log.Println("Pem file write error: ",err)
-			f.Close()
-		}
-		err = f.Close()
-		if err != nil {
-			log.Println("Pem file close error: ",err)			
-		}		
-		
+				
 	}
 }
 

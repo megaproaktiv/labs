@@ -139,7 +139,7 @@ func PopulateData(client DeployInterface, name string,data map[string]CloudForma
 	for i := 0; i < len(output.StackEvents); i++ {
 		
 		
-		event := *output.StackEvents[i];		
+		event := output.StackEvents[i];		
 		if i == 0 {
 			lastTimeStamp = *event.Timestamp
 		}

@@ -5,3 +5,4 @@ credentials.txt
 labkey.pem
 *.log
 password.txt
+.task

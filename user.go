@@ -8,22 +8,31 @@ import (
 	"os"
 	"strings"
 	"time"
-	cfd "github.com/megaproaktiv/cfdl"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"github.com/megaproaktiv/cfdl"
 )
 
 const labUser = "awsstudent"
 
+// AccessKey short access key structure	
+type AccessKey struct {
+	AccessKeyID string
+	SecretAccessKey string
+}	
+
+var keypair AccessKey
 
 var (
-    lowerCharSet   = "abcdedfghijklmnopqrst"
+    lowerCharSet   = "abcdedfghijklmnopqrstuvwxyz"
     upperCharSet   = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    specialCharSet = "!@#$%&*"
+    specialCharSet = "!@#$%&*§(){}"
     numberSet      = "0123456789"
     allCharSet     = lowerCharSet + upperCharSet + specialCharSet + numberSet
 )
 
+
+//go:generate moq -out user_moq_test.go . IAMInterface
 
 
 // IAMInterface used iam actions
@@ -51,7 +60,6 @@ type IAMInterface interface {
 
 // **** Stacks ***
 
-
 // **** User ***
 
 // CreateUserIfnotExist awsstudent go
@@ -68,32 +76,32 @@ func CreateUserIfnotExist(client IAMInterface) {
 		_, err = client.CreateLoginProfile(context.TODO(), &iam.CreateLoginProfileInput{
 			UserName: aws.String(labUser),
 			Password: aws.String(password),
-			PasswordResetRequired: aws.Bool(false),
+			PasswordResetRequired: false,
 		})
 	
 		if err != nil {
 			log.Println("Error creating login profile: ",err)
 		}else{
-			cfd.Logger.Info("Created login Password: ",password)
+			cfdl.Logger.Info("Created login Password: ",password)
 		}
 
 		f, err := os.Create("password.txt")
 		if err != nil {
-			cfd.Logger.Error("File creation error: ",err)
+			cfdl.Logger.Error("File creation error: ",err)
 		}
 		err = os.Chmod(sshKeyFileName(), 0600)
 		if err != nil {
-			cfd.Logger.Error("File change permission error: ",err)
+			cfdl.Logger.Error("File change permission error: ",err)
 		}
 		_, err = f.WriteString(password)
 	
 		if err != nil {
-			cfd.Logger.Error("Credentials file write error: ",err)
+			cfdl.Logger.Error("Credentials file write error: ",err)
 			f.Close()
 		}
 		err = f.Close()
 		if err != nil {
-			cfd.Logger.Error("Credentials file close error: ",err)			
+			cfdl.Logger.Error("Credentials file close error: ",err)			
 		}	
 	}
 }
@@ -112,24 +120,33 @@ func CreateAccessKey(client IAMInterface) {
 	key = fmt.Sprintf("%s%s","export AWS_ACCESS_KEY_ID=",*response.AccessKey.AccessKeyId)
 	secret = fmt.Sprintf("%s%s","\nexport AWS_SECRET_ACCESS_KEY=",*response.AccessKey.SecretAccessKey)
 	f, err := os.Create("credentials.txt")
-		if err != nil {
-			cfd.Logger.Error("File creation error: ",err)
-		}
-		err = os.Chmod(sshKeyFileName(), 0600)
-		if err != nil {
-			cfd.Logger.Error("File change permission error: ",err)
-		}
+	if err != nil {
+		cfdl.Logger.Error("File creation error: ",err)
+	}
+	err = os.Chmod(sshKeyFileName(), 0600)
+	if err != nil {
+		cfdl.Logger.Error("File change permission error: ",err)
+	}
 
-		_, err = f.WriteString(key)
-		_, err = f.WriteString(secret)
-		if err != nil {
-			cfd.Logger.Error("Credentials file write error: ",err)
-			f.Close()
-		}
-		err = f.Close()
-		if err != nil {
-			cfd.Logger.Error("Credentials file close error: ",err)			
-		}	
+	_, err = f.WriteString(key)
+	_, err = f.WriteString(secret)
+	if err != nil {
+		cfdl.Logger.Error("Credentials file write error: ",err)
+		f.Close()
+	}
+	err = f.Close()
+	if err != nil {
+		cfdl.Logger.Error("Credentials file close error: ",err)			
+	}	
+
+	
+
+	keypair = AccessKey{
+		AccessKeyID: *response.AccessKey.AccessKeyId,
+		SecretAccessKey: *response.AccessKey.SecretAccessKey,
+	}
+	cfdl.Logger.Info("Key ",keypair.AccessKeyID)
+	
 }
 
 // DeleteAccessKey deletes
@@ -140,23 +157,23 @@ func DeleteAccessKey(client IAMInterface) {
         UserName: aws.String("awsstudent"),
 	})
 	if err != nil {
-		cfd.Logger.Error("Error list access key: ",err)
-	}
-
-	keys := listKeyResponse.AccessKeyMetadata
-	
-	for _, key := range keys {
-		keyID := key.AccessKeyId
-		log.Println("Deleting key:", *keyID)
-		cfd.Logger.Info("Deleting key:", *keyID)
-
-		params := &iam.DeleteAccessKeyInput{
-			UserName: aws.String(labUser),
-			AccessKeyId: key.AccessKeyId,
-		}
-		_, err := client.DeleteAccessKey(context.TODO(), params)
-		if err != nil {
-			cfd.Logger.Error("Error deleting access key: ",err)
+		cfdl.Logger.Error("Error list access key: ",err)
+	}else {
+		keys := listKeyResponse.AccessKeyMetadata
+		
+		for _, key := range keys {
+			keyID := key.AccessKeyId
+			log.Println("Deleting key:", *keyID)
+			cfdl.Logger.Info("Deleting key:", *keyID)
+			
+			params := &iam.DeleteAccessKeyInput{
+				UserName: aws.String(labUser),
+				AccessKeyId: key.AccessKeyId,
+			}
+			_, err := client.DeleteAccessKey(context.TODO(), params)
+			if err != nil {
+				cfdl.Logger.Error("Error deleting access key: ",err)
+			}
 		}
 	}
 	
@@ -208,7 +225,7 @@ func generateMyPassword()(string){
     minSpecialChar := 1
     minNum := 1
     minUpperCase := 1
-    passwordLength := 12
+    passwordLength := 16
     password := generatePassword(passwordLength, minSpecialChar, minNum, minUpperCase)
     return password
 
