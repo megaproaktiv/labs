@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2020-12-04
+## Added
+- parameters are set if present
+- create user login profile, save as password.txt
+
 
 ## [0.1.0] - 2020-11-27
 ## Added

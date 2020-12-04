@@ -19,9 +19,9 @@ Create AWS CloudFormation lab environment with convention based configuration.
 
 ## AMI search results
 
-If the template references an AMI, you have to replace it.
+If the template references an AMI, it is automatically set
 
-from
+Example:
 
 ```yaml
   AWSAmiId:
@@ -32,16 +32,7 @@ Resources:
 ...
 ```
 
-to
-```yaml
-  AWSAmiId:
-    Description: The name of the Windows AMI to find based on search
-    Type: String
-    Description: 'x86_64,Windows_Server-2012-R2_RTM-English-64Bit-Base'
-    Default: 'ami-06032c95ea1ffa069'
-Resources:
-...
-```
+It uses something like:
 
 ```bash
 aws ssm get-parameters-by-path \
