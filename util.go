@@ -5,27 +5,36 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"github.com/aws/aws-sdk-go-v2/aws"
+    "github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 )
 
-var cfg aws.Config
-var identity *sts.GetCallerIdentityOutput
 
-func init() {
+
+func identity() *(sts.GetCallerIdentityOutput){
     var err error;
-    cfg, err = config.LoadDefaultConfig()
+    cfg, err := config.LoadDefaultConfig()
      if err != nil {
         panic(fmt.Sprintf("failed loading config, %v", err))
      }
      client := sts.NewFromConfig(cfg)
 
-	identity, err = client.GetCallerIdentity(context.Background(), &sts.GetCallerIdentityInput{})
+	identity, err := client.GetCallerIdentity(context.Background(), &sts.GetCallerIdentityInput{})
 	if err != nil {
 		log.Fatal("Error getting identity",err)
-	}
+    }
+    return identity
+}
+
+func cfg() ( aws.Config) {
+    var err error;
+    cfg, err := config.LoadDefaultConfig()
+     if err != nil {
+        panic(fmt.Sprintf("failed loading config, %v", err))
+     }
+     
+    return cfg
 }
 
 // Getenv with fallback
@@ -39,11 +48,12 @@ func Getenv(key, fallback string) string {
 
 // GetRegion Current Region
 func GetRegion()(string){
+    cfg := cfg()
     region := cfg.Region
     return region;
 }
 
 // GetAccount Current Account
 func GetAccount()(string){
-    return *identity.Account
+    return *identity().Account
 }

@@ -22,6 +22,11 @@ func init() {
 	defer cfd.Logger.Sync()
 }
 
+
+func version() {
+	fmt.Println("0.1.x - 2020-12-03-1420")	
+}
+
 func main() {
 
 	cfd.Logger.Info("Starting")
@@ -29,8 +34,9 @@ func main() {
 	const cmdDestroyString = "destroy"
 	const cmdDeployString = "deploy"
 	const cmdStatusString = "status"
-	
 	const cmdHelpString = "help"
+	const cmdVersionString = "version"
+
 
 	const flagLab = "lab"
 
@@ -42,6 +48,7 @@ func main() {
 	registry.Register(cmdDestroyString)
 	registry.Register(cmdStatusString)
 	registry.Register(cmdHelpString)
+	registry.Register(cmdVersionString)
 	
 	
 	cmdDeploy.AddFlag(flagLab,"l",false,"")
@@ -131,6 +138,11 @@ func main() {
 
 	if cmd == cmdHelpString {
 		help();
+		os.Exit(0);
+	}
+
+	if cmd == cmdVersionString {
+		version();
 		os.Exit(0);
 	}
 

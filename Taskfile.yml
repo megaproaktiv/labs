@@ -20,17 +20,36 @@ tasks:
 
   test:
     deps: [build]
+    sources: 
+      - ./*.go
+      - main/*go
     desc: go test
     cmds:
+      - clear
+      - date
       - go test -v
+
+  testrun-zero:
+    desc: run testcycle
+    cmds:
+      - echo "Lab with all parameters"
+      - go run main/main.go destroy -l 0
+      - go run main/main.go deploy -l 0
+      - go run main/main.go destroy -l 0
 
   testrun:
     desc: run testcycle
     cmds:
+      - echo "Lab with all parameters"
       - go run main/main.go destroy -l 0
       - go run main/main.go deploy -l 0
-      - sleep 10
+      - sleep 5
       - go run main/main.go destroy -l 0
+      - echo "Lab with one parameters"
+      - go run main/main.go destroy -l 1
+      - go run main/main.go deploy -l 1
+      - sleep 5
+      - go run main/main.go destroy -l 1
     ignore_error: true
 
   install-local:

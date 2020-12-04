@@ -1,0 +1,58 @@
+{
+    "KeyPairs": [
+        {
+            "KeyPairId": "key-02d8a426123456b87",
+            "KeyFingerprint": "45:22:33:68:4a:0c:d6:bb:57:90:97:2a:0d:15:39:db:6d:f2:af:80",
+            "KeyName": "default-lab-key",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-057eba2612345ed6d5",
+            "KeyFingerprint": "4e:11:7f:b3:7d:49:6b:69:2e:69:b2:f7:e5:81:ab:d9",
+            "KeyName": "fr-ffm",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key2612345504d91a127",
+            "KeyFingerprint": "ac:71:6d:62:5a:aa:17:4a:af:52:a4:bc:84:08:69:d0:bf:78:3b:45",
+            "KeyName": "afdsd-eu-central-1",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-02612345e1d2236282",
+            "KeyFingerprint": "24:0a:1e:9a:e8:12:63:a8:0c:3a:af:bf:cd:40:00:a1:1f:9f:ca:91",
+            "KeyName": "helsinki-preview",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-07ca32612345175b81",
+            "KeyFingerprint": "a9:67:fd:a4:d7:d7:af:97:83:a6:d0:57:2f:f2:af:36:ca:d9:8f:db",
+            "KeyName": "imac",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-0a52612345d6c4ab",
+            "KeyFingerprint": "b6:18:8c:4d:81:af:f5:eb:ce:60:0c:36:e2:13:c7:d9:8a:3c:54:cb",
+            "KeyName": "kitchen-defaultamazon-silberkopf-GernotsMBPfritzbox-2018-12-09T09:34:55Z-gwr1o76p",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-2612345883ebf433f5",
+            "KeyFingerprint": "ca:ff:7f:ea:90:3c:51:95:55:af:66:44:ad:04:39:7e:45:40:10:72",
+            "KeyName": "kitchen-defaultamazon-2612345-2612345-2018-12-30T15:23:20Z-u9w48qe6",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-02612345b4d568ad",
+            "KeyFingerprint": "d1:a1:f8:02:cd:18:6f:6f:16:f1:33:96:92:ca:e7:ac:2e:64:41:8c",
+            "KeyName": "lab-key-pair",
+            "Tags": []
+        },
+        {
+            "KeyPairId": "key-2612345",
+            "KeyFingerprint": "d9:47:69:c7:7b:d5:ec:af:bd:85:65:f9:13:ce:64:d5:26:76:a9:f3",
+            "KeyName": "mykey",
+            "Tags": []
+        }
+    ]
+}

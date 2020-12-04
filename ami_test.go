@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSomethingThatUsesEc2Interface(t *testing.T) {
+func TestSearchMatchingAMI(t *testing.T) {
 
 	expectedValues := "ami-06032c95ea1ffa069"
 

@@ -49,3 +49,12 @@ aws ssm get-parameters-by-path \
     --query 'Parameters[].[Name,Value]'
 ```
 
+## Troubleshooting
+
+### IAM user can not be deleted 
+
+```bash
+panic: operation error IAM: DeleteUser, https response error StatusCode: 409, RequestID: bc97e79f-2438-4c9b-bb8b-6e7bd4bf149e, api error DeleteConflict: Cannot delete entity, must detach all policies first.
+```
+
+If you manually attach more policies to the user or if another lab, which cloudformation stack has not been deleted attaches policies to the user, then you have to detach them manually.

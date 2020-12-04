@@ -21,6 +21,7 @@ type DeployInterface interface {
 
 
 
+
 // **** Stacks ***
 
 // CreateStack creates a lab stack
@@ -29,14 +30,36 @@ func CreateStack(client DeployInterface, name string, template []byte) {
 
 	templateBody := string(template)
 
+	stackParms := ReadParameter(template);
+
+	// Set parameters only if they apply to the read cloudformation template
+	var callParms []types.Parameter;
+
+	_ , key := stackParms["KeyName"]
+	_ , accesskey := stackParms["AWSAccessKey"]
+	_ , secret := stackParms["AWSSecretAccessKey"]
+
+
+	if key {
+		callParms = append(callParms,
+			types.Parameter {ParameterKey: aws.String("KeyName"), ParameterValue: aws.String(labKey)},
+		)
+	}
+
+	if accesskey {
+		callParms = append(callParms,types.Parameter {ParameterKey: aws.String("AWSAccessKey"), ParameterValue: aws.String("nixda")},
+		)
+	}
+
+	if secret {
+		callParms = append(callParms,
+			types.Parameter {ParameterKey: aws.String("AWSSecretAccessKey"), ParameterValue: aws.String("nixda")})
+	}
+
 	params := &cfn.CreateStackInput{
 		StackName:    &name,
 		TemplateBody: &templateBody,
-		Parameters: []*types.Parameter{
-			{ParameterKey: aws.String("KeyName"), ParameterValue: aws.String(labKey)},
-			{ParameterKey: aws.String("AWSSecretAccessKey"), ParameterValue: aws.String("nixda")},
-			{ParameterKey: aws.String("AWSAccessKey"), ParameterValue: aws.String("nixda")},
-		},
+		Parameters: callParms,
 		Capabilities: []types.Capability{"CAPABILITY_NAMED_IAM"},
 	}
 
