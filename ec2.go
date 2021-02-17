@@ -30,26 +30,31 @@ const labKey = "labkey"
 func CreateKeyIfNotExist(client Ec2Interface) {
 	log.Println("Create EC2 Key: ",labKey)
 
+	key := "labkey"
 	// Check existance
-	// params := &ec2.DescribeKeyPairsInput{
-	// 	KeyNames: []*string{aws.String(key),},
-	// }
+	params := &ec2.DescribeKeyPairsInput{
+		KeyNames: []string{key,},
+	}
 	var createKey bool
 	createKey = false
-	response, err := client.DescribeKeyPairs(context.TODO(), &ec2.DescribeKeyPairsInput{})
+	response, err := client.DescribeKeyPairs(context.TODO(), params)
 	if err != nil {
-		panic(err)
+		createKey = true
 	}
-	if len(response.KeyPairs) == 0 {
-		createKey = true
-		log.Println("Key not found in account, thus creating a new one")
-	}else{
-		createKey = true
-		for _, keypair := range response.KeyPairs {
-			if *keypair.KeyName == labKey {
-				createKey = false
+
+	if createKey == false {
+		if len(response.KeyPairs) == 0 {
+			createKey = true
+			log.Println("Key not found in account, thus creating a new one")
+		}else{
+			createKey = true
+			for _, keypair := range response.KeyPairs {
+				if *keypair.KeyName == labKey {
+					createKey = false
+				}
 			}
 		}
+		
 	}
 		
 	if !createKey {
@@ -87,6 +92,15 @@ func CreateKeyIfNotExist(client Ec2Interface) {
 		}
 				
 	}
+
+	response, err = client.DescribeKeyPairs(context.TODO(), &ec2.DescribeKeyPairsInput{})
+	if err != nil {
+		panic(err)
+	}
+	if len(response.KeyPairs) == 0 {	
+		log.Println("Key found in account.")
+	}
+		
 }
 
 func sshKeyFileName() string {

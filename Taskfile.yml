@@ -56,4 +56,4 @@ tasks:
     desc: Install in "user/local/bin"
     deps: [build]
     cmds: 
-      - sudo cp dist/mac/labs /usr/local/bin/labs
+      - sudo cp dist/labs /usr/local/bin/labs

@@ -82,9 +82,10 @@ func ClientEC2() *ec2.Client {
 
 
 func getCfg() *aws.Config {
-	cfg, err := config.LoadDefaultConfig(config.WithRegion("eu-central-1"))
+	cfg, err := config.LoadDefaultConfig()
 	if err != nil {
 		panic("unable to load SDK config, " + err.Error())
 	}
+	log.Println("Region used: ",cfg.Region)
 	return &cfg
 }

@@ -24,7 +24,7 @@ func init() {
 
 
 func version() {
-	fmt.Println("0.1.x - 2020-12-03-1420")	
+	fmt.Println("0.1.2 - 2021-01-25")	
 }
 
 func main() {
