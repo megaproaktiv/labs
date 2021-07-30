@@ -17,11 +17,58 @@ Create AWS CloudFormation lab environment with convention based configuration.
 
 ![Architecture](img/labdeploy.png)
 
+## Example
+
+Given:
+
+- A subdirectory "lab1" with:
+
+```txt
+lab1/iam_policy.json 
+lab1/cloudformation_template.txt 
+```
+
+Where `iam_policy.json` contains a AWS policy and `cloudformation_template.txt` contains a AWS CloudFormation template.
+
+With 
+
+```bash
+labs deploy -l 1
+```
+
+You get the output:
+
+```log
+2021/07/30 09:04:14 Region used:  eu-central-1
+2021/07/30 09:04:14 Region used:  eu-central-1
+2021/07/30 09:04:14 Lab number:  1
+2021/07/30 09:04:14 Create EC2 Key:  labkey
+2021/07/30 09:04:14 Writing ssh key local:  labkey.pem
+2021/07/30 09:04:14 Create User
+2021/07/30 09:04:15 Create Access Key
+2021/07/30 09:04:16 Create Lab Policy  lab1-policy  from:  ./lab1/iam_policy.json
+2021/07/30 09:04:16 Create Stack
+2021/07/30 09:04:17 Show Status
+...
+```
+
+After the template is deployed, you get:
+
+File | purpose
+---|---
+credentials.txt | AWS_ACCESS_KEY_ID&AWS_SECRET_ACCESS_KEY of awsstudent iam user
+labkey.pem | ssh private key
+password.txt | password for awsstudent
+
+Now you have the restriced user awsstudent, but you may also use privileged users in your account.
+
 ## AMI search results
 
 If the template references an AMI, it is automatically set
 
 Example:
+
+
 
 ```yaml
   AWSAmiId:

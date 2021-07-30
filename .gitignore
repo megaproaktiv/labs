@@ -6,3 +6,4 @@ labkey.pem
 *.log
 password.txt
 .task
+dist/
