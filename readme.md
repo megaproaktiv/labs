@@ -62,6 +62,14 @@ password.txt | password for awsstudent
 
 Now you have the restriced user awsstudent, but you may also use privileged users in your account.
 
+## Destroy
+
+After the lab you should tear the Cfn Stack and the associated resources down:
+
+```bash
+labs destroy -l 1
+```
+
 ## AMI search results
 
 If the template references an AMI, it is automatically set
@@ -96,3 +104,12 @@ panic: operation error IAM: DeleteUser, https response error StatusCode: 409, Re
 ```
 
 If you manually attach more policies to the user or if another lab, which cloudformation stack has not been deleted attaches policies to the user, then you have to detach them manually.
+
+
+### policy called lab1-policy already exists
+
+```log
+CreateLabPolicy error:  operation error IAM: CreatePolicy, https response error StatusCode: 409, RequestID: c66d58ed-b772-4a42-adfe-6bdd9801e91c, EntityAlreadyExists: A policy called lab1-policy already exists
+```
+
+Run `labs destroy -l 1` before deploy.

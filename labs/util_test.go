@@ -1,7 +1,6 @@
-package labdeploy_test
-
+package labs_test
 import (
-	"labdeploy"
+	labdeploy "labdeploy/labs"
 	"os"
 	"testing"
 	"github.com/stretchr/testify/assert"

@@ -8,7 +8,7 @@ vars:
 tasks:
   build:
     cmds:
-      -  go build -o dist/labs main/main.go
+      -  go build -o dist/labs main.go
     silent: true
 
   build-all-os:
@@ -22,12 +22,12 @@ tasks:
     deps: [build]
     sources: 
       - ./*.go
-      - main/*go
+      - labs/*go
     desc: go test
     cmds:
       - clear
       - date
-      - go test -v
+      - go test ./...
 
   testrun-zero:
     desc: run testcycle
@@ -56,4 +56,5 @@ tasks:
     desc: Install in "user/local/bin"
     deps: [build]
     cmds: 
+      - sudo rm /usr/local/bin/labs
       - sudo cp dist/labs /usr/local/bin/labs
