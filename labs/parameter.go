@@ -1,9 +1,10 @@
-package labdeploy
+package labs
 
 import (
 	"io/ioutil"
 	"log"
-	"gopkg.in/yaml.v2"
+
+	"gopkg.in/yaml.v1"
 )
 
 // Template Parameters Cloudformation parameters

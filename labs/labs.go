@@ -1,5 +1,4 @@
-package labdeploy
-
+package labs
 import (
 	"context"
 	"log"
@@ -82,7 +81,7 @@ func ClientEC2() *ec2.Client {
 
 
 func getCfg() *aws.Config {
-	cfg, err := config.LoadDefaultConfig()
+	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		panic("unable to load SDK config, " + err.Error())
 	}

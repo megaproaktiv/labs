@@ -1,5 +1,4 @@
-package labdeploy
-
+package labs
 import (
 	"context"
 	"fmt"
@@ -14,7 +13,7 @@ import (
 
 func identity() *(sts.GetCallerIdentityOutput){
     var err error;
-    cfg, err := config.LoadDefaultConfig()
+    cfg, err := config.LoadDefaultConfig(context.TODO())
      if err != nil {
         panic(fmt.Sprintf("failed loading config, %v", err))
      }
@@ -29,7 +28,7 @@ func identity() *(sts.GetCallerIdentityOutput){
 
 func cfg() ( aws.Config) {
     var err error;
-    cfg, err := config.LoadDefaultConfig()
+    cfg, err := config.LoadDefaultConfig(context.TODO())
      if err != nil {
         panic(fmt.Sprintf("failed loading config, %v", err))
      }

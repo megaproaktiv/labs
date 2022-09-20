@@ -12,7 +12,7 @@ import (
 	cfd "github.com/megaproaktiv/cfdl"
 
 	// own
-	labs "labdeploy"
+	"labdeploy/labs" 
 
 	"github.com/thatisuday/clapper"
 )

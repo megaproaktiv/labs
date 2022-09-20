@@ -1,8 +1,7 @@
-package labdeploy_test
-
+package labs_test
 import (
 	"io/ioutil"
-	"labdeploy"
+	labdeploy "labdeploy/labs"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
