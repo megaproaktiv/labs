@@ -1,16 +1,12 @@
-package labdeploy
+package labs
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"math/rand"
-	"os"
 	"strings"
 	"time"
-	"github.com/aws/aws-sdk-go-v2/aws"
+
 	"github.com/aws/aws-sdk-go-v2/service/iam"
-	"github.com/megaproaktiv/cfdl"
 )
 
 const labUser = "awsstudent"
@@ -31,10 +27,6 @@ var (
     allCharSet     = lowerCharSet + upperCharSet + specialCharSet + numberSet
 )
 
-
-//go:generate moq -out user_moq_test.go . IAMInterface
-
-
 // IAMInterface used iam actions
 type IAMInterface interface {
 	AttachUserPolicy(ctx context.Context, params *iam.AttachUserPolicyInput, optFns ...func(*iam.Options)) (*iam.AttachUserPolicyOutput, error)
@@ -49,6 +41,8 @@ type IAMInterface interface {
 
 
 
+	ListAttachedUserPolicies(ctx context.Context, params *iam.ListAttachedUserPoliciesInput, optFns ...func(*iam.Options)) (*iam.ListAttachedUserPoliciesOutput, error)
+
 	ListUsers(ctx context.Context, params *iam.ListUsersInput, optFns ...func(*iam.Options)) (*iam.ListUsersOutput, error)
 	CreateUser(ctx context.Context, params *iam.CreateUserInput, optFns ...func(*iam.Options)) (*iam.CreateUserOutput, error)
 	DeleteUser(ctx context.Context, params *iam.DeleteUserInput, optFns ...func(*iam.Options)) (*iam.DeleteUserOutput, error)
@@ -58,144 +52,6 @@ type IAMInterface interface {
 	DeletePolicy(ctx context.Context, params *iam.DeletePolicyInput, optFns ...func(*iam.Options)) (*iam.DeletePolicyOutput, error)
 }
 
-// **** Stacks ***
-
-// **** User ***
-
-// CreateUserIfnotExist awsstudent go
-func CreateUserIfnotExist(client IAMInterface) {
-	log.Println("Create User")
-	password := generateMyPassword()
-	if !studentExists(client) {
-		_, err :=client.CreateUser(context.TODO(), &iam.CreateUserInput{
-			UserName: aws.String(labUser),
-		})
-		if err != nil {
-			log.Println("Error creating user: ",err)
-		}
-		_, err = client.CreateLoginProfile(context.TODO(), &iam.CreateLoginProfileInput{
-			UserName: aws.String(labUser),
-			Password: aws.String(password),
-			PasswordResetRequired: false,
-		})
-	
-		if err != nil {
-			log.Println("Error creating login profile: ",err)
-		}else{
-			cfdl.Logger.Info("Created login Password: ",password)
-		}
-
-		f, err := os.Create("password.txt")
-		if err != nil {
-			cfdl.Logger.Error("File creation error: ",err)
-		}
-		err = os.Chmod(sshKeyFileName(), 0600)
-		if err != nil {
-			cfdl.Logger.Error("File change permission error: ",err)
-		}
-		_, err = f.WriteString(password)
-	
-		if err != nil {
-			cfdl.Logger.Error("Credentials file write error: ",err)
-			f.Close()
-		}
-		err = f.Close()
-		if err != nil {
-			cfdl.Logger.Error("Credentials file close error: ",err)			
-		}	
-	}
-}
-
-// CreateAccessKey create key
-func CreateAccessKey(client IAMInterface) {
-	log.Println("Create Access Key")
-	params := &iam.CreateAccessKeyInput{
-		UserName: aws.String(labUser),
-	}
-	response, err := client.CreateAccessKey(context.TODO(), params)
-	if err != nil {
-		panic(err)
-	}
-	var key,secret string
-	key = fmt.Sprintf("%s%s","export AWS_ACCESS_KEY_ID=",*response.AccessKey.AccessKeyId)
-	secret = fmt.Sprintf("%s%s","\nexport AWS_SECRET_ACCESS_KEY=",*response.AccessKey.SecretAccessKey)
-	f, err := os.Create("credentials.txt")
-	if err != nil {
-		cfdl.Logger.Error("File creation error: ",err)
-	}
-	err = os.Chmod(sshKeyFileName(), 0600)
-	if err != nil {
-		cfdl.Logger.Error("File change permission error: ",err)
-	}
-
-	_, err = f.WriteString(key)
-	_, err = f.WriteString(secret)
-	if err != nil {
-		cfdl.Logger.Error("Credentials file write error: ",err)
-		f.Close()
-	}
-	err = f.Close()
-	if err != nil {
-		cfdl.Logger.Error("Credentials file close error: ",err)			
-	}	
-
-	
-
-	keypair = AccessKey{
-		AccessKeyID: *response.AccessKey.AccessKeyId,
-		SecretAccessKey: *response.AccessKey.SecretAccessKey,
-	}
-	cfdl.Logger.Info("Key ",keypair.AccessKeyID)
-	
-}
-
-// DeleteAccessKey deletes
-func DeleteAccessKey(client IAMInterface) {
-	log.Println("DeleteAccessKey Access Key")
-
-	listKeyResponse, err :=client.ListAccessKeys(context.TODO(),&iam.ListAccessKeysInput{
-        UserName: aws.String("awsstudent"),
-	})
-	if err != nil {
-		cfdl.Logger.Error("Error list access key: ",err)
-	}else {
-		keys := listKeyResponse.AccessKeyMetadata
-		
-		for _, key := range keys {
-			keyID := key.AccessKeyId
-			log.Println("Deleting key:", *keyID)
-			cfdl.Logger.Info("Deleting key:", *keyID)
-			
-			params := &iam.DeleteAccessKeyInput{
-				UserName: aws.String(labUser),
-				AccessKeyId: key.AccessKeyId,
-			}
-			_, err := client.DeleteAccessKey(context.TODO(), params)
-			if err != nil {
-				cfdl.Logger.Error("Error deleting access key: ",err)
-			}
-		}
-	}
-	
-}
-
-
-// DeleteUserIfExist cleanup
-func DeleteUserIfExist(client IAMInterface) {
-	log.Println("Delete user")
-	if studentExists(client) {
-		fmt.Println("Found ", labUser, "deleting...")
-		_,err := client.DeleteLoginProfile(context.TODO(), &iam.DeleteLoginProfileInput{
-			UserName: aws.String(labUser),
-		});
-		_, err = client.DeleteUser(context.TODO(), &iam.DeleteUserInput{
-			UserName: aws.String(labUser),
-		})
-		if err != nil {
-			panic(err)
-		}
-	}
-}
 
 func studentExists(client IAMInterface) bool {
 	var studentExists bool
@@ -214,13 +70,15 @@ func studentExists(client IAMInterface) bool {
 
 
 
+
+
 // ClientIAM IAM
 func ClientIAM() *iam.Client {
 	client := iam.NewFromConfig(*getCfg())
 	return client
 }
 
-func generateMyPassword()(string){
+func GenerateMyPassword()(string){
 	rand.Seed(time.Now().Unix())
     minSpecialChar := 1
     minNum := 1

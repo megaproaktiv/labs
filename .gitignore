@@ -7,3 +7,4 @@ labkey.pem
 password.txt
 .task
 dist/
+.DS_Store

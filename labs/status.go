@@ -1,5 +1,4 @@
-package labdeploy
-
+package labs
 import (
 	"context"
 	"fmt"
