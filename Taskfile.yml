@@ -8,7 +8,7 @@ vars:
 tasks:
   build:
     cmds:
-      -  go build -o dist/labs main.go
+      -  go build -o dist/labs main/main.go
     silent: true
 
   build-all-os:

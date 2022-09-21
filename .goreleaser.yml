@@ -3,7 +3,7 @@
 before:
   hooks:
     # You may remove this if you don't use go modules.
-    # - go mod tidy
+    - go list
 
 builds:
   - env:
@@ -12,6 +12,7 @@ builds:
       - linux
       - windows
       - darwin
+    main: ./main
 archives:
   - replacements:
       darwin: Darwin
